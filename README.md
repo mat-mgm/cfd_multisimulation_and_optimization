@@ -28,7 +28,51 @@ This project was submitted as the final project for the Bachelor's degree in Ind
 5. **Cost computation** — material cost is estimated from surface area, material density, and price (304 stainless steel).
 6. **Pareto optimization** — non-dominated points in the (cost, pressure) space are identified and plotted.
 
-![Functional architecture](images/functional_architecture.png)
+```
+                       ┌────────────────────────────┐
+                       │               n iterations │
+                       ▼                            │
+                ┌─────────────┐                     │
+                │ Monte Carlo │                     │
+                └──────┬──────┘                     │
+                       │                            │
+              Input    │                            │
+            parameters │                            │
+                       │                            │
+         ┌─────────────┴──────────────┐             │
+         │                            │             │
+         │                            │             │
+         ▼                            ▼             │
+┌──────────────────┐         ┌─────────────────┐    │
+│ Simulation files │         │ Mesh generation │    │
+│    (PyFoam)      │         │     (gmsh)      │    │
+└───────┬──────────┘         └────────┬────────┘    │
+        │                             │             │
+        └──────────────┬──────────────┘             │
+                       │                            │
+                       ▼                            │
+             ┌────────────────────┐                 │
+             │   Run simulation   ├─────────────────┘
+             │ (OpenFOAM/icoFoam) │
+             └─────────┬──────────┘
+                       │
+                       ▼
+             ┌─────────────────────┐
+             │ Extract and collect ├──┐
+             │       results       │  │
+             └─────────┬───────────┘  │
+                       │              │
+                       ▼              │
+             ┌─────────────────────┐  │
+             │ Pareto optimization ├──┤
+             └─────────────────────┘  │
+                                      │
+                                      ▼
+                               ┌──────────────┐
+                               │ Plot results │
+                               │ (matplotlib) │
+                               └──────────────┘
+```
 
 ## Repository structure
 
